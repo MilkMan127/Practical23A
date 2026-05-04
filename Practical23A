@@ -1,1 +1,104 @@
+public class Practical23A {
 
+    public static void print(int heap[]) {
+        if (heap == null || heap.length <= 1) {
+            System.out.println("Heap is empty.");
+            return;
+        }
+
+        int n = heap.length;
+
+        for (int i = 1; i < n; i++) {
+            int c1 = 3 * i - 1;
+            int c2 = 3 * i;
+            int c3 = 3 * i + 1;
+
+            // ONLY print if node has at least one child
+            if (c1 < n) {
+                System.out.print("Node " + heap[i] + " -> ");
+
+                boolean hasChild = false;
+
+                if (c1 < n) {
+                    System.out.print(heap[c1]);
+                    hasChild = true;
+                }
+
+                if (c2 < n) {
+                    if (hasChild) System.out.print(", ");
+                    System.out.print(heap[c2]);
+                    hasChild = true;
+                }
+
+                if (c3 < n) {
+                    if (hasChild) System.out.print(", ");
+                    System.out.print(heap[c3]);
+                }
+
+                System.out.println();
+            }
+        }
+    }
+
+    public static int validate(int heap[]) {
+        if (heap == null || heap.length <= 2) return 1;
+
+        int n = heap.length;
+
+        boolean isMin = true;
+        boolean isMax = true;
+
+        for (int i = 1; i < n; i++) {
+            int c1 = 3 * i - 1;
+            int c2 = 3 * i;
+            int c3 = 3 * i + 1;
+
+            if (c1 < n) {
+                if (heap[i] > heap[c1]) isMin = false;
+                if (heap[i] < heap[c1]) isMax = false;
+            }
+
+            if (c2 < n) {
+                if (heap[i] > heap[c2]) isMin = false;
+                if (heap[i] < heap[c2]) isMax = false;
+            }
+
+            if (c3 < n) {
+                if (heap[i] > heap[c3]) isMin = false;
+                if (heap[i] < heap[c3]) isMax = false;
+            }
+
+            // Early exit (optimization)
+            if (!isMin && !isMax) return -1;
+        }
+
+        return 1;
+    }
+
+    public static void main(String[] args) {
+
+        int[] heap1 = {0, 10, 20, 30, 40, 50, 60, 70};
+        int[] heap2 = {0, 100, 90, 80, 70, 60, 50, 40};
+        int[] heap3 = {0, 10, 5, 30, 2, 50, 60};
+        int[] heap4 = {0, 10};
+
+        System.out.println("Heap 1:");
+        print(heap1);
+        System.out.println("Validate: " + validate(heap1));
+        System.out.println();
+
+        System.out.println("Heap 2:");
+        print(heap2);
+        System.out.println("Validate: " + validate(heap2));
+        System.out.println();
+
+        System.out.println("Heap 3:");
+        print(heap3);
+        System.out.println("Validate: " + validate(heap3));
+        System.out.println();
+
+        System.out.println("Heap 4:");
+        print(heap4);
+        System.out.println("Validate: " + validate(heap4));
+    }
+}
